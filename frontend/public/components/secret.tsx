@@ -30,7 +30,9 @@ import { sorts } from './factory/table';
 import { sortResourceByValue } from './factory/Table/sort';
 import { useAddSecretToWorkloadModalLauncher } from './modals/add-secret-to-workload';
 import { secretTypeFilterReducer } from './secrets/create-secret';
-import { SecretFilterValues } from './secrets/create-secret/types';
+import { SecretFilterValues, SecretType } from './secrets/create-secret/types';
+import { TLSCertificateData } from './secrets/tls-certificate-data';
+import { TLS_CERTIFICATE_KEY } from './secrets/tls-certificate-utils';
 import { DetailsItem } from './utils/details-item';
 import { ResourceSummary, detailsPage } from './utils/details-page';
 import { SectionHeading } from './utils/headings';
@@ -117,6 +119,11 @@ const SecretDetails: FC<{ obj: SecretKind }> = ({ obj }) => {
       <PaneBody>
         <SecretData data={data || {}} />
       </PaneBody>
+      {type === SecretType.tls && data?.[TLS_CERTIFICATE_KEY] && (
+        <PaneBody>
+          <TLSCertificateData encodedCertificate={data[TLS_CERTIFICATE_KEY]} />
+        </PaneBody>
+      )}
     </>
   );
 };

@@ -396,10 +396,11 @@ export default class KubernetesClient {
     name: string,
     namespace: string,
     data: Record<string, string> = {},
+    type?: string,
   ): Promise<void> {
     await this.k8sApi.createNamespacedSecret({
       namespace,
-      body: { apiVersion: 'v1', kind: 'Secret', metadata: { name, namespace }, data },
+      body: { apiVersion: 'v1', kind: 'Secret', metadata: { name, namespace }, data, type },
     });
   }
 
@@ -584,15 +585,6 @@ export default class KubernetesClient {
       version,
     });
     return response;
-  }
-
-  async getClusterCustomResource(
-    group: string,
-    version: string,
-    plural: string,
-    name: string,
-  ): Promise<unknown> {
-    return this.coApi.getClusterCustomObject({ group, name, plural, version });
   }
 
   async patchClusterCustomResource(
